@@ -22,7 +22,7 @@ if torch.cuda.is_available():
 # GPU 연산의 결정론적 결과를 위해 추가 설정
 torch.backends.cudnn.deterministic = True
 torch.backends.cudnn.benchmark = False
-# PyTorch의 결정론적 알고리즘 사
+# PyTorch의 결정론적 알고리즘 사용
 torch.use_deterministic_algorithms(True)
 
 import wandb
