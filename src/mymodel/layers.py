@@ -144,7 +144,7 @@ class MoireAttention(nn.Module):
         # edge_attr = self.edge_ffn(edge_attr) 
         edge_attr = self.edge_ffn(edge_attr)  # (batch_size, num_edges, 1)
 
-        # 🔥 SpectralEdge Score 처리 (차원 수정됨)
+        # SpectralEdge Score 처리 (차원 수정됨)
         edge_attr = edge_attr.squeeze(-1).unsqueeze(1)  # (batch_size, 1, num_edges)
         edge_attr = edge_attr.expand(-1, self.num_heads, -1)  # (batch_size, num_heads, num_edges)
         
@@ -165,7 +165,7 @@ class MoireAttention(nn.Module):
         edge_index_u = edge_index[:, 0, :].unsqueeze(1).expand(-1, self.num_heads, -1)
         edge_index_v = edge_index[:, 1, :].unsqueeze(1).expand(-1, self.num_heads, -1)
 
-        # 🔥 adjusted_scores에 SpectralEdge Score 추가로 적용 🔥
+        # adjusted_scores에 SpectralEdge Score 추가로 적용
         adjusted_scores[batch_indices, head_indices, edge_index_u, edge_index_v] += weighted_edge_attr
 
         # self-loop 추가
