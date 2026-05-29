@@ -38,8 +38,6 @@ Place the following three scripts in the `data/moleculenet_data/` directory:
   – Default preprocessing. This is used for the main experiments.
 * `moleculenet_big_data_2d.py`
   – Alternative preprocessing for environments with limited storage.
-* `moleculenet_2d_non_geo.py`
-  – Preprocessing for non-geometric 2D graphs. SEE supports both geometric 2D and non-geometric (0/1) graph representations.
 
 ---
 
