@@ -9,7 +9,7 @@ seed = 42
 
 # Python 내장 해시 seed 고정
 os.environ["PYTHONHASHSEED"] = str(seed)
-# cuBLAS 결정론성을 위한 환경 변수 설정 (PyTorch 1.8 이상 권장)
+# cuBLAS 결정론성을 위한 환경 변수 설정
 os.environ["CUBLAS_WORKSPACE_CONFIG"] = ":16:8"
 
 # 랜덤 시드 고정
@@ -22,7 +22,7 @@ if torch.cuda.is_available():
 # GPU 연산의 결정론적 결과를 위해 추가 설정
 torch.backends.cudnn.deterministic = True
 torch.backends.cudnn.benchmark = False
-# PyTorch의 결정론적 알고리즘 사용 (PyTorch 1.8 이상)
+# PyTorch의 결정론적 알고리즘 사
 torch.use_deterministic_algorithms(True)
 
 import wandb
@@ -54,7 +54,7 @@ parser.add_argument("--device", type=str, default="cuda")
 parser.add_argument("--VERBOSE", type=bool, default=True)
 args = parser.parse_args()
 
-# 초기 CONFIG 설정 (기본값은 argparse에서 받아온 값으로 덮어씌워짐)
+# 초기 CONFIG 설정
 CONFIG = {
     "MODEL": "ess",
     "DATASET": "BBBP",      # 사용 데이터셋: BBBP
@@ -119,16 +119,14 @@ match CONFIG["DATASET"]:
         criterion = nn.BCEWithLogitsLoss()
     case "SIDER":
         dataset = SIDERDataset(path="/root/2025/sse_moleculenet/data/moleculenet_dataset/data_pkl/sider_data_pyg.pkl", scaffold_split=True)
-        dataset.prediction_size = 27  # SIDER는 27개의 태스크 (예: 부작용 예측)
+        dataset.prediction_size = 27  # SIDER는 27개의 태스크
         criterion = nn.BCEWithLogitsLoss()
     case "Tox21":
         dataset = Tox21Dataset(path="/root/2025/sse_moleculenet/data/moleculenet_dataset/data_pkl/tox21_data.pkl", scaffold_split=True)
-        # Tox21은 다중 레이블 분류 문제입니다. (예: 12개 태스크)
         dataset.prediction_size = 12
         criterion = nn.BCEWithLogitsLoss()
     case "MUV":
-        dataset = MUVDataset(path="/root/2025/sse_moleculenet/data/moleculenet_dataset/data_pkl/muv_data_pyg.pkl",
-                             scaffold_split=True)
+        dataset = MUVDataset(path="/root/2025/sse_moleculenet/data/moleculenet_dataset/data_pkl/muv_data_pyg.pkl", scaffold_split=True)
         dataset.prediction_size = 17
         criterion = nn.BCEWithLogitsLoss()
     case "ToxCast":
@@ -136,9 +134,9 @@ match CONFIG["DATASET"]:
         # 다중 라벨 문제이므로, 첫 샘플의 target 차원에 따라 prediction_size 설정
         dataset.prediction_size = 617
         criterion = nn.BCEWithLogitsLoss()
-    case "Clintox":  # Tox21 대신 Clintox 선택
+    case "Clintox": 
         dataset = ClintoxDataset(path="/root/2025/sse_moleculenet/data/moleculenet_dataset/data_pkl/clintox_data.pkl", scaffold_split=False)
-        dataset.prediction_size = 2  # ClinTox: 두 개의 태스크
+        dataset.prediction_size = 2 
         criterion = nn.BCEWithLogitsLoss()
 dataset.float()
 dataset.batch_size = CONFIG["BATCH_SIZE"]
@@ -187,7 +185,6 @@ class MyModel(nn.Module):
 
 model = MyModel(CONFIG)
 if CONFIG["DEVICE"] == "cuda":
-    # model = nn.DataParallel(model)  # 재현성을 위해 단일 GPU 사용을 고려해볼 수 있습니다.
     model = model.to('cuda')
 optimizer = optim.AdamW(
     model.parameters(), lr=CONFIG["LEARNING_RATE"], weight_decay=CONFIG["WEIGHT_DECAY"]
