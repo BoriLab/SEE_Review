@@ -34,8 +34,8 @@ spectral edge encoding
 
 Place the following three scripts in the `data/moleculenet_data/` directory:
 
-* `moleculenet_big_data_2d.py`
-  – Alternative preprocessing for environments with limited storage.
+* `2d_moleculenet_pre.py`
+
 
 ---
 
