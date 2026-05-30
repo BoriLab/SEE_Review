@@ -199,6 +199,6 @@ aliquot = Aliquot(
     optimizer=optimizer,
     criterion=criterion,
     scheduler=scheduler,
-)(wandb_project=CONFIG["DATASET"], wandb_config=CONFIG, num_epochs=10000, patience=20)
+)(wandb_project=CONFIG["DATASET"], wandb_config=CONFIG, num_epochs=500, patience=20)
 
 # Training loop는 Aliquot 내부에서 실행
