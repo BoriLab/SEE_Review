@@ -91,8 +91,8 @@ def spectral_edge_encoding(coords: np.ndarray, k_eigen=5, gamma=0.5):
                 # Edge (i, j)를 제거하는 perturbation은 ΔL_ij = (e_i - e_j)(e_i - e_j)^T 형태로 표현
                 # 현재 구현은 수식과 대응관계를 명확히 보이기 위해 ΔL matrix를 직접 구성
                 delta_L = np.zeros((n, n))
-                delta_L[i, i] = delta_L[j, j] = 1
-                delta_L[i, j] = delta_L[j, i] = -1
+                delta_L[i, i] = delta_L[j, j] = -1 # 대각 감소
+                delta_L[i, j] = delta_L[j, i] = 1 # 비대각 증가
                 
                 # delta_L : edge 하나가 Laplacian에 영향을 주는지 perturbation matrix
                 # Rayleigh quotient 기반 1차 근사:
